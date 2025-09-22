@@ -12,14 +12,13 @@ class CustomUser(AbstractUser):
     class Role(models.TextChoices):
         STUDENT = 'STUDENT', _('Студент')
         TUTOR = 'TUTOR', _('Тьютор')
-        STAFF = 'STAFF', _('Сотрудник')  # Используем STAFF вместо COMPANY, т.к. "company" может быть зарезервировано
+        STAFF = 'STAFF', _('Сотрудник')
         COMPANY = 'COMPANY', _('Представитель компании')
 
     class Gender(models.TextChoices):
         MALE = 'MALE', _('Мужской')
         FEMALE = 'FEMALE', _('Женский')
 
-    # Убираем стандартные first_name и last_name, используем одно поле
     first_name = None
     last_name = None
 
@@ -28,8 +27,7 @@ class CustomUser(AbstractUser):
     role = models.CharField(_('Роль'), max_length=50, choices=Role.choices, default=Role.STUDENT)
     gender = models.CharField(_('Пол'), max_length=10, choices=Gender.choices)
 
-    # USERNAME_FIELD остается 'username', т.к. Django требует его.
-    # Логику входа по email мы реализуем отдельно.
+    # TODO: EMAIL LOGIN (NOW ONLY USERNAME)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'full_name']
 
