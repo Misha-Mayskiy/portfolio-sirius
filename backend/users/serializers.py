@@ -7,8 +7,11 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'full_name', 'gender', 'password', 'password2']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ['username', 'email', 'first_name', 'last_name', 'patronymic', 'gender', 'password', 'password2']
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'patronymic': {'required': False, 'allow_blank': True}
+        }
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
