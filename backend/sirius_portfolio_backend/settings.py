@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-01*e*wp-bc+n40*bt&t8ar8_0g_nvzloot%n5&^1ebth=7ue3m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Сторонние библиотеки
     'rest_framework',
     'rest_framework_simplejwt',
+    'corsheaders',
 
     # Наши приложения
     'users',  # Отвечает за реализацию регистрации/авторизации
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -138,3 +140,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
