@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: sirius_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=sirius_user
+      - POSTGRES_PASSWORD=sirius_password
+      - POSTGRES_DB=sirius_db
+
+  web:
+    container_name: sirius_backend
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=sirius_db
+      - DB_USER=sirius_user
+      - DB_PASS=sirius_password
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
