@@ -5,23 +5,24 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=sirius_user
-      - POSTGRES_PASSWORD=sirius_password
-      - POSTGRES_DB=sirius_db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
 
   web:
     container_name: sirius_backend
-    build: .
+    build:
+      context: ./backend
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/app
+      - ./backend:/app
     ports:
       - "8000:8000"
     environment:
       - DB_HOST=db
-      - DB_NAME=sirius_db
-      - DB_USER=sirius_user
-      - DB_PASS=sirius_password
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
     depends_on:
       - db
 
