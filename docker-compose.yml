@@ -19,6 +19,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - SECRET_KEY=${SECRET_KEY}
       - DB_HOST=db
       - DB_NAME=${POSTGRES_DB}
       - DB_USER=${POSTGRES_USER}
