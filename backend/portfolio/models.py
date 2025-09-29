@@ -12,3 +12,16 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return f"Профиль студента {self.user.username}"
+
+
+class Document(models.Model):
+    """Модель для хранения загруженных документов."""
+    title = models.CharField(max_length=255, verbose_name="Название документа")
+    description = models.TextField(blank=True, null=True, verbose_name="Описание")
+
+    # upload_to='documents/' - все файлы будут складываться в папку media/documents/
+    file = models.FileField(upload_to='documents/', verbose_name="Файл")
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
+
+    def __str__(self):
+        return self.title
