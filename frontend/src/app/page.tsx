@@ -10,9 +10,9 @@ export default function Home() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-
     const formdata = new FormData();
     formdata.append("file", e.target.files[0]);
+    formdata.append("title", e.target.files[0].name);
     FetchImage(formdata);
   };
 
@@ -30,11 +30,11 @@ export default function Home() {
           или кликните, чтобы выбрать файлы (JPG, PNG)
         </div>
         <input
-        onChange={handleFileChange}
+          onChange={handleFileChange}
           ref={inputRef}
           type="file"
           id="file-input"
-          accept="image/jpeg, image/png image/svg"
+          accept=".png, .jpg, .jpeg, .svg, .pdf"
           multiple
           hidden
         />

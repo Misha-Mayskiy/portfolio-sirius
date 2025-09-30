@@ -17,11 +17,10 @@ const api = axios.create({
 
 export const FetchEnter = async (data: FormEnter): Promise<void> => {
   try {
-
     const response = await api.post("auth/token/", data);
     console.log(response.data);
     alert("Вы успешно вошли!");
-    return(response.data)
+    return response.data;
   } catch (error: any) {
     if (error.response) {
       console.error("Ответ сервера:", error.response.data);
@@ -34,15 +33,21 @@ export const FetchEnter = async (data: FormEnter): Promise<void> => {
 };
 
 export const FetchImage = async (data: FormData) => {
+  console.log(data);
   try {
-    const response = await api.post("auth/token/", data);
+    const response = await api.post("profile/upload/", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     console.log(response);
-    if (response.status === 200) {
-      console.log("фото отправилось");
+    console.log("фото отправилось");
+  } catch (error: any) {
+    if (error.response) {
+      console.error("Ответ сервера:", error.response.data);
     } else {
-      console.log(response.status);
+      console.error("Произошла ошибка");
     }
-  } catch (error) {
-    console.error("Ошибка:", error);
+    throw error;
   }
 };
