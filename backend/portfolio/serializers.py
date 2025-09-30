@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import StudentProfile
+from .models import Document
 
 
 class StudentProfileSerializer(serializers.ModelSerializer):
@@ -13,3 +14,10 @@ class StudentProfileSerializer(serializers.ModelSerializer):
         model = StudentProfile
         fields = ['username', 'first_name', 'last_name', 'patronymic', 'email', 'avatar', 'bio', 'birth_date',
                   'phone_number']
+
+
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Document
+        fields = ['id', 'title', 'description', 'file', 'uploaded_at']
+        read_only_fields = ['id', 'uploaded_at']
