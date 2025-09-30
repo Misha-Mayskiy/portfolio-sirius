@@ -24,6 +24,7 @@ services:
       - DB_NAME=${POSTGRES_DB}
       - DB_USER=${POSTGRES_USER}
       - DB_PASS=${POSTGRES_PASSWORD}
+      - CONFIG_PATH=/app/ml/config.json
     depends_on:
       - db
 

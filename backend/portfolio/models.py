@@ -23,5 +23,7 @@ class Document(models.Model):
     file = models.FileField(upload_to='documents/', verbose_name="Файл")
     uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
 
+    recognized_text = models.TextField(blank=True, null=True, verbose_name="Распознанный текст")
+
     def __str__(self):
         return self.title
