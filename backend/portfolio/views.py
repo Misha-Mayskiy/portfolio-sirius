@@ -35,6 +35,8 @@ class DocumentUploadView(APIView):
 
         document = serializer.save()
 
+        response_data = serializer.data
+
         should_recognize = request.query_params.get('recognize', 'false').lower() == 'true' or \
                            request.data.get('recognize', 'false').lower() == 'true'
 
@@ -49,9 +51,13 @@ class DocumentUploadView(APIView):
                 if recognized_text:
                     document.recognized_text = recognized_text
                     document.save()
+                    response_data['recognized_text'] = recognized_text
+                else:
+                    response_data['recognition_error'] = "ML-сервис не смог обработать запрос."
 
             except Exception as e:
-                print(f"Ошибка во время распознавания файла {document.id}: {e}")
+                error_message = f"Ошибка во время распознавания: {e}"
+                print(error_message)
+                response_data['recognition_error'] = "Произошла ошибка при вызове сервиса распознавания."
 
-        final_serializer = DocumentSerializer(document)
-        return Response(final_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(response_data, status=status.HTTP_201_CREATED)
