@@ -1,19 +1,23 @@
 "use client";
 
 import { FetchImage } from "@/api/api";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 export default function Home() {
   const inputRef = useRef<null | HTMLInputElement>(null);
+  const [text, setText] = useState<string>("");
   const HandleClick = () => {
     inputRef.current?.click();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const formdata = new FormData();
     formdata.append("file", e.target.files[0]);
     formdata.append("title", e.target.files[0].name);
-    FetchImage(formdata);
+    formdata.append("recognize", "true");
+    console.log(formdata);
+    const textResponse = await FetchImage(formdata);
+    setText(textResponse);
   };
 
   return (
@@ -34,12 +38,15 @@ export default function Home() {
           ref={inputRef}
           type="file"
           id="file-input"
-          accept=".png, .jpg, .jpeg, .svg, .pdf"
+          accept=".png, .jpg, .jpeg, .pdf, .gif, .docx, .doc, .xls, .xlsx, .pptx"
           multiple
           hidden
         />
       </div>
-      <div id="file-list" className="mt-5 w-[500px] text-left"></div>
+
+      <div id="file-list" className="bg-yellow-100 m-auto mt-5 max-w-[90vw] w-[500px] text-left rounded-xl py-4 px-4">
+        {text && <p className="text-[18px]">{text}</p>}
+      </div>
     </>
   );
 }

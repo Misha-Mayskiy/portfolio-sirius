@@ -20,7 +20,6 @@ export const FetchEnter = async (data: FormEnter): Promise<void> => {
     const response = await api.post("auth/token/", data);
     console.log(response.data);
     alert("Вы успешно вошли!");
-    return response.data;
   } catch (error: any) {
     if (error.response) {
       console.error("Ответ сервера:", error.response.data);
@@ -32,21 +31,23 @@ export const FetchEnter = async (data: FormEnter): Promise<void> => {
   }
 };
 
-export const FetchImage = async (data: FormData) => {
-  console.log(data);
+export const FetchImage = async (data: FormData): Promise<string> => {
   try {
     const response = await api.post("profile/upload/", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response);
+    console.log(response.data);
     console.log("фото отправилось");
+    return response.data?.recognized_text
+      ? response.data.recognized_text
+      : "текст не распознан";
   } catch (error: any) {
     if (error.response) {
       console.error("Ответ сервера:", error.response.data);
     } else {
-      console.error("Произошла ошибка");
+      console.error("Произошла ошибка: ", error.message);
     }
     throw error;
   }
